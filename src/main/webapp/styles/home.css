@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.left-side {
+    font-family: 'Roboto', sans-serif;
+    flex: 1;
+    padding: 20px;
+    border-right: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.left-side h2 {
+    font-size: 70px;
+    color: blueviolet;
+}
+
+.left-side form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.left-side label {
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 16px;
+}
+
+.left-side input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.my_button input {
+    padding: 12px 24px;
+    background-color: blueviolet;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.left-side ul {
+    cursor: pointer;
+    font-size: 30px;
+    color: blueviolet;
+}
+
+.left-side li {
+    cursor: pointer;
+    font-size: 30px;
+    color: #ceb9ec;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav-link:hover {
+    text-decoration: none;
+    color: blueviolet;
+}
+
+
+.right-side {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid #eee;
+    padding: 20px;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.right-side h2 {
+    font-size: 40px;
+    color: blueviolet;
+}
+
+.right-side form {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    justify-content: center;
+}
+
+.right-side label {
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 16px; /* Размер шрифта меток */
+    justify-content: center;
+}
+
+.right-side input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px; /* Размер шрифта в полях ввода */
+    justify-content: center;
+}
+
+.right-side button {
+    padding: 12px 24px;
+    background-color: blueviolet;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    justify-content: center;
+}
+
+.line {
+    border-left: 5px solid blueviolet;
+    height: 100%;
+    margin: 0 20px;
+}
