@@ -116,7 +116,7 @@ public class DbHandler {
                 Integer id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
                 String owner = resultSet.getString("owner");
-                Set<Task> tasks = getProjectTasks(title);
+                Set<Task> tasks = getProjectTasks(id);
                 Project project = new Project(id, title, owner, tasks);
                 projects.add(project);
             }
@@ -128,21 +128,22 @@ public class DbHandler {
 
     }
 
-    public static Set<Task> getProjectTasks(String projectTitle){
+    public static Set<Task> getProjectTasks(Integer projectId){
         Set<Task> tasks = new HashSet<>();
 
         Connection connection = getConnection();
-        String sql = "SELECT * FROM tasks WHERE project = ?";
+        String sql = "SELECT * FROM tasks WHERE project_id = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, projectTitle);
+            preparedStatement.setInt(1, projectId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                Integer id = resultSet.getInt("id");
                 String title = resultSet.getString("title");
-                String owner = resultSet.getString("project");
                 String status = resultSet.getString("status");
-                Task task = new Task(title, owner, status);
+                Integer project_id = resultSet.getInt("project_id");
+                Task task = new Task(id, title, status, project_id);
                 tasks.add(task);
             }
         } catch (SQLException e) {
@@ -167,7 +168,7 @@ public class DbHandler {
                 project.setId(id);
                 project.setTitle(title);
                 project.setOwnerName(owner);
-                project.setTasks(getProjectTasks(title));
+                project.setTasks(getProjectTasks(id));
             }
         } catch (SQLException e) {
             e.printStackTrace();

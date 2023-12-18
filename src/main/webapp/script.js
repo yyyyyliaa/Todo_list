@@ -9,6 +9,8 @@ const backlogListEl = document.getElementById("to-do-list");
 const progressListEl = document.getElementById("doing-list");
 const completeListEl = document.getElementById("done-list");
 
+// class todoItem
+
 // Items
 let updatedOnLoad = false;
 

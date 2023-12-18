@@ -8,8 +8,9 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class Task {
+    private Integer id;
     private String title;
-    private String project;
     private String status;
+    private Integer project_id;
 
 }

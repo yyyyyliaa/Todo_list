@@ -5,7 +5,7 @@ plugins {
 
 apply from: 'https://raw.github.com/gretty-gradle-plugin/gretty/master/pluginScripts/gretty.plugin'
 
-group 'ru.dingo3'
+group 'java'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -15,6 +15,7 @@ repositories {
 gretty {
     httpPort = project.hasProperty("httpPort") ? project.httpPort as int : 8180
     contextPath = '/'
+    fastReload = true
 }
 
 dependencies {

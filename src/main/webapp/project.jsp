@@ -3,36 +3,35 @@
 <%@ page import="model.User" %>
 <%@ page import="repository.DbHandler" %>
 <%@ page import="model.Project" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="eng">
 <head>
     <title>Home</title>
     <meta charset="UTF-8">
-    <link href="styles/project.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/styles/project.css" rel="stylesheet">
 </head>
 <body class="container">
 <div class="left-side">
+    <h1>${project.getTitle()}</h1>
     <h2>Hello, <%=session.getAttribute("loggedInUser")%></h2>
-    <% User user = DbHandler.getUserByUsername(session.getAttribute("loggedInUser").toString());%>
     <ul>
         <li><a href="home.jsp" class="nav-link">Home</a></li>
-        <li style="color:blueviolet"><a href="projects.jsp" class="nav-link">Projects -</a></li>
+        <li style="color:blueviolet"><a href="projects.jsp" class="nav-link">Projects </a></li>
         <ul>
-            <% for (Project project : user.getProjects()){
-            %>
-            <li><a href="project.jsp" class="nav-link"><%=project.getTitle()%></a></li>
-            <%
-                }%>
+            <c:forEach var="pr" items="${userProjects}">
+            <li style="${project.getId()==pr.getId() ? 'color:blueviolet' : ''}"><a href="/project/${pr.getId()}" class="nav-link">${pr.getTitle()}</a></li>
+            </c:forEach>
         </ul>
         <li><a href="settings.jsp" class="nav-link">Settings</a></li>
     </ul>
 </div>
 
-<script>
-    progressListArray = ["Work on Droppi project", "Listen to Spotify"];
-    completeListArray = ["Submit a PR", "Review my projects code"];
-    onHoldListArray = ["Get a girlfriend"];
-</script>
+<%--<script>--%>
+<%--    progressListArray = ["Work on Droppi project", "Listen to Spotify"];--%>
+<%--    completeListArray = ["Submit a PR", "Review my projects code"];--%>
+<%--    onHoldListArray = ["Get a girlfriend"];--%>
+<%--</script>--%>
 <div style="flex: 2">
     <div class="drag-container">
         <ul class="drag-list">

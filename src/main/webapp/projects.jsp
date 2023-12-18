@@ -13,6 +13,7 @@
 </head>
 <body class="container">
 <div class="left-side">
+
     <h2>Hello, <%=session.getAttribute("loggedInUser")%></h2>
     <% User user = DbHandler.getUserByUsername(session.getAttribute("loggedInUser").toString());%>
 
@@ -24,7 +25,8 @@
             <ul id="projectsList" style="display: none;">
                 <% for (Project project : user.getProjects()){ %>
                 <li><a href="/project/<%=project.getId()%>" class="nav-link"><%=project.getTitle()%></a></li>
-                <% } %>
+
+                <%} %>
             </ul>
         </li>
         <li><a href="settings.jsp" class="nav-link">Settings</a></li>
