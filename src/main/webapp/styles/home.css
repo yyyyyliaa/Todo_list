@@ -84,8 +84,21 @@
     background-repeat: no-repeat;
 }
 
+.cat_img {
+        flex: 2; /* Занимаем две трети доступной ширины */
+        background-image: url(cat.jpeg);
+        background-size: cover;
+        background-repeat: no-repeat;
+
+}
+
 .right-side h2 {
-    font-size: 40px;
+    font-size: 50px;
+    color: blueviolet;
+}
+
+.right-side h1 {
+    text-align: center;
     color: blueviolet;
 }
 
@@ -127,4 +140,17 @@
     border-left: 5px solid blueviolet;
     height: 100%;
     margin: 0 20px;
+}
+
+.right-side ul{
+    list-style-type: circle;
+    padding-left: 30px;
+    color: black;
+    font-size: 30px;
+
+}
+
+.right-side li.command {
+    margin-left: 20px;
+    color: black;
 }

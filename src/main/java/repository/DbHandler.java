@@ -176,5 +176,90 @@ public class DbHandler {
         return project;
     }
 
+    public static void updTask(Integer id, String title, String status){
+        System.out.println(id + " " + title + " " + status);
+        Connection connection = getConnection();
+        String sql = "UPDATE tasks SET title = ?, status = ? WHERE id = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, status);
+            preparedStatement.setInt(3, id);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Integer addTask(String title, String status, int project_id){
+        Connection connection = getConnection();
+        String sql = "INSERT INTO tasks(title, status, project_id) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, status);
+            preparedStatement.setInt(3, project_id);
+            preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else return -1;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void deleteTask(Integer taskId){
+        Connection connection = getConnection();
+        String sql = "DELETE FROM tasks WHERE id = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, taskId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static int addProject(String title, String owner){
+        Connection connection = getConnection();
+        String sql = "INSERT INTO projects(title, owner) VALUES (?, ?)";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, owner);
+            preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            } else return -1;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteProject(Integer projectId){
+        Connection connection = getConnection();
+        String sql = "DELETE FROM projects WHERE id = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, projectId);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

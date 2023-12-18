@@ -12,20 +12,85 @@
     <link href="${pageContext.request.contextPath}/styles/project.css" rel="stylesheet">
 </head>
 <body class="container">
+
 <div class="left-side">
-    <h1>${project.getTitle()}</h1>
     <h2>Hello, <%=session.getAttribute("loggedInUser")%></h2>
+    <% User user = DbHandler.getUserByUsername(session.getAttribute("loggedInUser").toString());%>
     <ul>
-        <li><a href="home.jsp" class="nav-link">Home</a></li>
+        <li><a href="/home.jsp" class="nav-link">Home</a></li>
         <li style="color:blueviolet"><a href="projects.jsp" class="nav-link">Projects </a></li>
         <ul>
             <c:forEach var="pr" items="${userProjects}">
-            <li style="${project.getId()==pr.getId() ? 'color:blueviolet' : ''}"><a href="/project/${pr.getId()}" class="nav-link">${pr.getTitle()}</a></li>
+                <li><a href="/project/${pr.getId()}" class="nav-link">${pr.getTitle()}</a><a onclick="deleteProjectDialog(${pr.getId()})">         𝕏</a></li>
             </c:forEach>
+            <li><a onclick="createProjectDialog()" class="nav-link">Create new project</a></li>
         </ul>
-        <li><a href="settings.jsp" class="nav-link">Settings</a></li>
+        <li><a href="/settings.jsp" class="nav-link">Settings</a></li>
     </ul>
 </div>
+
+<script>
+    function deleteProjectDialog(projectId) {
+        const url = '/projects';
+
+        let params = {
+            projectId: projectId,
+            _method: "DELETE",
+        };
+        const searchParams = new URLSearchParams(params).toString();
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('POST', url, false); // Synchronous request
+
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Set the necessary Content-Type
+        xhr.send(searchParams);
+        if(xhr.status===200 && xhr.responseText !== "-1"){
+            window.location.href = '/home.jsp';
+        } else alert(":(");
+
+
+    }
+
+</script>
+
+<script>
+    function createProjectDialog() {
+        const url = '/projects';
+        const projectTitle = prompt(
+            "Enter new project title"
+        );
+        let params = {
+            projectTitle: projectTitle,
+            owner: "<%=user.getUsername()%>"
+        };
+        const searchParams = new URLSearchParams(params).toString();
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('POST', url, false); // Synchronous request
+
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Set the necessary Content-Type
+        xhr.send(searchParams);
+        if(xhr.status===200 && xhr.responseText !== "-1"){
+            window.location.href = '/project/' + xhr.responseText;
+        } else alert(":(");
+
+
+    }
+
+</script>
+
+<script>
+    function toggleProjects() {
+        var projectsList = document.getElementById("projectsList");
+        if (projectsList.style.display === "none") {
+            projectsList.style.display = "block";
+        } else {
+            projectsList.style.display = "none";
+        }
+    }
+</script>
 
 <%--<script>--%>
 <%--    progressListArray = ["Work on Droppi project", "Listen to Spotify"];--%>
@@ -125,6 +190,48 @@
 
         </ul>
     </div>
+    <script>
+        class TodoTask {
+            constructor(id, name, status) {
+                this.id = id;
+                this.name = name;
+                this.status = status;
+            }
+
+            toString() {
+                return this.name;
+            }
+        }
+
+        let projectId = ${project.getId()};
+
+        let allTasks = [
+            <c:forEach var="task" items="${project.getTasks()}">
+                new TodoTask(${task.getId()}, '${task.getTitle()}', '${task.getStatus()}'),
+            </c:forEach>
+        ]
+        let backlogListArray = [];
+        let progressListArray = [];
+        let completeListArray = [];
+        let listArrays = [];
+
+        function getSavedColumns() {
+            allTasks.forEach(function(todo){
+                switch (todo.status) {
+                    case '0':
+                        backlogListArray.push(todo);
+                        break;
+                    case '1':
+                        progressListArray.push(todo);
+                        break;
+                    case '2':
+                        completeListArray.push(todo);
+                        break;
+                }
+            })
+        }
+
+    </script>
     <script src="/script.js"></script>
 </div>
 </body>

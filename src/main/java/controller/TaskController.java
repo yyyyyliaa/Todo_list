@@ -10,9 +10,8 @@ import repository.DbHandler;
 
 import java.io.IOException;
 
-@WebServlet(name = "projects", value = "/projects")
-public class ProjectsController extends HttpServlet {
-
+@WebServlet(name="tasks", value = "/tasks")
+public class TaskController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -23,18 +22,31 @@ public class ProjectsController extends HttpServlet {
             doDelete(request, response);
             return;
         }
-        String projectTitle = request.getParameter("projectTitle");
-        String owner = request.getParameter("owner");
-        int newTaskId = DbHandler.addProject(projectTitle, owner);
-        response.getWriter().print(newTaskId);
+        String taskId = request.getParameter("taskId");
+        String taskTitle = request.getParameter("taskTitle");
+        String taskStatus = request.getParameter("taskStatus");
+//        System.out.println("id: " + taskId);
+        String projectId = request.getParameter("projectId");
+        if(taskStatus==null || taskTitle==null){
+            System.out.println("Some parameter is null");
+            return;
+        }
+        if (taskId==null){
+             int newTaskId = DbHandler.addTask(taskTitle, taskStatus, Integer.parseInt(projectId));
+             response.getWriter().print(newTaskId);
+        } else {
+            DbHandler.updTask(Integer.parseInt(taskId), taskTitle, taskStatus);
+        }
+
+
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String projectId = request.getParameter("projectId");
-        System.out.println("ID " + projectId);
-        if (projectId!=null){
-            DbHandler.deleteProject(Integer.parseInt(projectId));
+        String taskId = request.getParameter("taskId");
+        System.out.println("ID " + taskId);
+        if (taskId!=null){
+            DbHandler.deleteTask(Integer.parseInt(taskId));
         }
     }
 }
