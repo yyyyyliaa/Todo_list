@@ -9,8 +9,17 @@ const backlogListEl = document.getElementById("to-do-list");
 const progressListEl = document.getElementById("doing-list");
 const completeListEl = document.getElementById("done-list");
 
-// class todoItem
 
+class TodoTask {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    toString() {
+        return this.name;
+    }
+}
 // Items
 let updatedOnLoad = false;
 
@@ -27,9 +36,13 @@ let currentColumn;
 
 // Get Arrays from localStorage if available, set default values if not
 function getSavedColumns() {
-    backlogListArray = ["Доделать курсач"]
-    progressListArray = ["Work on Droppi project", "Listen to Spotify"];
-    completeListArray = ["Submit a PR", "Review my projects code"];
+    backlogListArray = [new TodoTask(1, 'John'), new TodoTask(3, 'ggапg')]
+    progressListArray = [];
+    completeListArray = [new TodoTask(2, 'ggg')];
+
+    // backlogListArray = ["Доделать курсач"]
+    // progressListArray = ["Work on Droppi project", "Listen to Spotify"];
+    // completeListArray = ["Submit a PR", "Review my projects code"];
 
     // if (localStorage.getItem("backlogItems")) {
     //     backlogListArray = JSON.parse(localStorage.backlogItems);
@@ -64,7 +77,7 @@ function updateSavedColumns() {
         progressListArray,
         completeListArray,
     ];
-    const arrayNames = ["backlog", "progress", "complete", "onHold"];
+    const arrayNames = ["backlog", "progress", "complete"];
     arrayNames.forEach((arrayName, index) => {
         localStorage.setItem(
             `${arrayName}Items`,
@@ -95,10 +108,10 @@ function createItemEl(columnEl, column, item, index) {
 // Update Columns in DOM - Reset HTML, Filter Array, Update localStorage
 function updateDOM() {
     // Check localStorage once
-    getSavedColumns();
-    // if (!updatedOnLoad) {
-    //     getSavedColumns();
-    // }
+    // getSavedColumns();
+    if (!updatedOnLoad) {
+        getSavedColumns();
+    }
     // Backlog Column
     backlogListEl.textContent = "";
     backlogListArray.forEach((backlogItem, index) => {
@@ -117,14 +130,9 @@ function updateDOM() {
         createItemEl(completeListEl, 2, completeItem, index);
     });
     completeListArray = filterArray(completeListArray);
-    // On Hold Column
-    onHoldListEl.textContent = "";
-    onHoldListArray.forEach((onHoldItem, index) => {
-        createItemEl(onHoldListEl, 3, onHoldItem, index);
-    });
-    onHoldListArray = filterArray(onHoldListArray);
     // Run getSavedColumns only once, Update Local Storage
     updatedOnLoad = true;
+    alert("yyyyyyyy")
     updateSavedColumns();
 }
 
@@ -146,8 +154,11 @@ function updateItem(id, column) {
 function addToColumn(column) {
     const itemText = addItems[column].textContent;
     const selectedArray = listArrays[column];
-    selectedArray.push(itemText);
+
+    listArrays[column].push(new TodoTask(5, itemText));
+    alert("ffff")
     addItems[column].textContent = "";
+
     updateDOM(column);
 }
 
@@ -179,10 +190,6 @@ function rebuildArrays() {
     completeListArray = [];
     for (let i = 0; i < completeListEl.children.length; i++) {
         completeListArray.push(completeListEl.children[i].textContent);
-    }
-    onHoldListArray = [];
-    for (let i = 0; i < onHoldListEl.children.length; i++) {
-        onHoldListArray.push(onHoldListEl.children[i].textContent);
     }
     updateDOM();
 }
