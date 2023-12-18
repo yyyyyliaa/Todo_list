@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.ArrayList,java.util.List,java.io.BufferedReader,java.io.FileReader" %>
-<%@ page import="repository.DbHandler" %>
+<%@ page import="handler.DbHandler" %>
 <%@ page import="model.User" %>
 <%@ page import="model.Project" %>
 <!DOCTYPE html>

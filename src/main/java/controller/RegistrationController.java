@@ -6,7 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import repository.DbHandler;
+import handler.DbHandler;
 
 
 import java.io.IOException;
@@ -35,17 +35,5 @@ public class RegistrationController extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
 
-//        if (valid) {
-//            Member member = new Member(username, password);
-//            RegisterDAO registerDAO = new RegisterDAO();
-//            String result = registerDAO.insert(member);
-//            System.out.println(result);
-//            Todo_list.getInstance().addUser(username,password);
-//             PrintWriter out = response.getWriter();
-//            out.print("Registration successful");
-//        } else {
-//            PrintWriter out = response.getWriter();
-//            out.print("User with this username already exist. Please, sign in");
-//        }
     }
 }

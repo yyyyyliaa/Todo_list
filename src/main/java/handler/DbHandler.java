@@ -1,4 +1,4 @@
-package repository;
+package handler;
 
 import dao.UserDAO;
 import model.Project;

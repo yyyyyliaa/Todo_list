@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import repository.DbHandler;
+import handler.DbHandler;
 
 import java.io.IOException;
 
@@ -25,7 +25,6 @@ public class TaskController extends HttpServlet {
         String taskId = request.getParameter("taskId");
         String taskTitle = request.getParameter("taskTitle");
         String taskStatus = request.getParameter("taskStatus");
-//        System.out.println("id: " + taskId);
         String projectId = request.getParameter("projectId");
         if(taskStatus==null || taskTitle==null){
             System.out.println("Some parameter is null");
