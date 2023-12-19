@@ -25,11 +25,11 @@ public class DbHandler {
         return connection;
     }
 
-    public static String insert(UserDAO member){
+    public static String insert(UserDAO member) {
         String result = "Data entered successfully!";
         Connection connection = getConnection();
         String sql = "INSERT INTO users VALUES(?, ?)";
-        if(!checkUserExist(member.getUsername())){
+        if (!checkUserExist(member.getUsername())) {
             try {
                 PreparedStatement preparedStatement = connection.prepareStatement(sql);
                 preparedStatement.setString(1, member.getUsername());
@@ -43,7 +43,7 @@ public class DbHandler {
         return result;
     }
 
-    public static boolean checkUserExist(String username){
+    public static boolean checkUserExist(String username) {
         Connection connection = getConnection();
         String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement preparedStatement = null;
@@ -60,7 +60,7 @@ public class DbHandler {
         return false;
     }
 
-    public static boolean checkCorrectPassword(String username, String password){
+    public static boolean checkCorrectPassword(String username, String password) {
         Connection connection = getConnection();
         String sql = "SELECT password FROM users WHERE username = ?";
         PreparedStatement preparedStatement = null;
@@ -81,7 +81,7 @@ public class DbHandler {
         return false;
     }
 
-    public static User getUserByUsername(String username){
+    public static User getUserByUsername(String username) {
         User user = new User();
         Connection connection = getConnection();
         String sql = "SELECT * FROM users WHERE username = ?";
@@ -102,7 +102,7 @@ public class DbHandler {
         return user;
     }
 
-    public static Set<Project> getUserProjects(String username){
+    public static Set<Project> getUserProjects(String username) {
         Set<Project> projects = new HashSet<>();
 
         Connection connection = getConnection();
@@ -128,7 +128,7 @@ public class DbHandler {
 
     }
 
-    public static Set<Task> getProjectTasks(Integer projectId){
+    public static Set<Task> getProjectTasks(Integer projectId) {
         Set<Task> tasks = new HashSet<>();
 
         Connection connection = getConnection();
@@ -153,7 +153,7 @@ public class DbHandler {
         return tasks;
     }
 
-    public static Project getProjectById(Integer id){
+    public static Project getProjectById(Integer id) {
         Project project = new Project();
         Connection connection = getConnection();
         String sql = "SELECT * FROM projects WHERE id = ?";
@@ -176,7 +176,7 @@ public class DbHandler {
         return project;
     }
 
-    public static void updTask(Integer id, String title, String status){
+    public static void updTask(Integer id, String title, String status) {
         System.out.println(id + " " + title + " " + status);
         Connection connection = getConnection();
         String sql = "UPDATE tasks SET title = ?, status = ? WHERE id = ?";
@@ -193,7 +193,7 @@ public class DbHandler {
         }
     }
 
-    public static Integer addTask(String title, String status, int project_id){
+    public static Integer addTask(String title, String status, int project_id) {
         Connection connection = getConnection();
         String sql = "INSERT INTO tasks(title, status, project_id) VALUES (?, ?, ?)";
         PreparedStatement preparedStatement = null;
@@ -214,7 +214,7 @@ public class DbHandler {
 
     }
 
-    public static void deleteTask(Integer taskId){
+    public static void deleteTask(Integer taskId) {
         Connection connection = getConnection();
         String sql = "DELETE FROM tasks WHERE id = ?";
         PreparedStatement preparedStatement = null;
@@ -228,7 +228,7 @@ public class DbHandler {
         }
     }
 
-    public static int addProject(String title, String owner){
+    public static int addProject(String title, String owner) {
         Connection connection = getConnection();
         String sql = "INSERT INTO projects(title, owner) VALUES (?, ?)";
         PreparedStatement preparedStatement = null;
@@ -247,7 +247,7 @@ public class DbHandler {
         }
     }
 
-    public static void deleteProject(Integer projectId){
+    public static void deleteProject(Integer projectId) {
         Connection connection = getConnection();
         String sql = "DELETE FROM projects WHERE id = ?";
         PreparedStatement preparedStatement = null;
@@ -261,5 +261,51 @@ public class DbHandler {
         }
     }
 
+    public static int addExistProject(Integer projectId, String recipient) {
+        Connection connection = getConnection();
+        Project project = DbHandler.getProjectById(projectId);
+        PreparedStatement preparedStatement = null;
+        try {
+            String sql = "INSERT INTO projects(title, owner) VALUES (?, ?)";
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, project.getTitle());
+            preparedStatement.setString(2, recipient);
+            preparedStatement.executeUpdate();
 
+            int newProjectId = -1;
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                newProjectId = generatedKeys.getInt(1);
+            } else return -1;
+
+            for (Task task : project.getTasks()) {
+                DbHandler.addTask(task.getTitle(), task.getStatus(), newProjectId);
+            }
+
+            return newProjectId;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void changePassword(String username, String password) {
+
+        boolean result = DbHandler.checkUserExist(username);
+        if (!result) return;
+
+        Connection connection = getConnection();
+        String sql = "UPDATE users SET password = ? WHERE username = ?";
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, password);
+            preparedStatement.setString(2, username);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

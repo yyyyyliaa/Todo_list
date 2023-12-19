@@ -57,6 +57,16 @@
     font-size: 16px;
     justify-content: center;
 }
+.my_button button{
+    padding: 12px 24px;
+    background-color: blueviolet;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    justify-content: center;
+}
 
 .right-side {
     flex: 2; /* Занимаем две трети доступной ширины */

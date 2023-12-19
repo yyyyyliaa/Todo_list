@@ -91,6 +91,18 @@
             }
         }
     </script>
+
+    <script>
+        function submitForm() {
+            document.getElementById("logoutForm").submit();
+        }
+    </script>
+
+    <div class="my_button">
+        <form id="logoutForm" action="/logout.jsp" method="post">
+            <input type="button" value="LOGOUT" onclick="submitForm()"/>
+        </form>
+    </div>
 </div>
 
 
@@ -113,10 +125,10 @@
         </li>
         <li><strong>Change Task Status:</strong>
             <ul class="command">
-                <li>Each task within a project can be assigned a status (completed/in progress/not completed). By default, when created, each task is marked as "not completed".</li>
+                <li>Each task within a project can be assigned a status (to do/doing/done). </li>
             </ul>
         </li>
-        <li><strong>Share Functionality:</strong>
+        <li><strong>Share Project:</strong>
             <ul class="command">
                 <li>Users can share the created list with other users.</li>
             </ul>

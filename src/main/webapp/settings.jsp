@@ -91,8 +91,51 @@
             }
         }
     </script>
+
+    <script>
+        function submitForm() {
+            document.getElementById("logoutForm").submit();
+        }
+    </script>
+
+    <div class="my_button">
+        <form id="logoutForm" action="/logout.jsp" method="post">
+            <input type="button" value="LOGOUT" onclick="submitForm()"/>
+        </form>
+    </div>
 </div>
-<div class="right-side"></div>
+<div class="right-side">
+    <form action="changePassword" method="post">
+        <h2>Change password</h2>
+        <div class="input-group">
+            <label for="currentPassword">Current password</label>
+            <input
+                    type="password"
+                    id="currentPassword"
+                    name="currentPassword"
+            />
+        </div>
+        <div class="input-group">
+            <label for="password">New Password   </label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+            />
+        </div>
+        <div class="input-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+            />
+        </div>
+        <div>
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>
 

@@ -394,4 +394,40 @@ h1 {
     .drag-column {
         margin: 10px;
     }
+
+    .share-form {
+        width: 300px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .share-form label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .share-form input[type="text"],
+    .share-form input[type="submit"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .share-form input[type="submit"] {
+        background-color: blueviolet;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .share-form input[type="submit"]:hover {
+        background-color: #9e4bec;
+    }
+
 }

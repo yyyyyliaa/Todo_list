@@ -14,19 +14,32 @@
 <body class="container">
 
 <div class="left-side">
-    <h2>Hello, <%=session.getAttribute("loggedInUser")%></h2>
+    <h2>Hello, <%=session.getAttribute("loggedInUser")%>
+    </h2>
     <% User user = DbHandler.getUserByUsername(session.getAttribute("loggedInUser").toString());%>
     <ul>
         <li><a href="/home.jsp" class="nav-link">Home</a></li>
         <li style="color:blueviolet"><a href="projects.jsp" class="nav-link">Projects </a></li>
         <ul>
             <c:forEach var="pr" items="${userProjects}">
-                <li><a href="/project/${pr.getId()}" class="nav-link">${pr.getTitle()}</a><a onclick="deleteProjectDialog(${pr.getId()})">         𝕏</a></li>
+                <li><a href="/project/${pr.getId()}" class="nav-link">${pr.getTitle()}</a><a
+                        onclick="deleteProjectDialog(${pr.getId()})"> 𝕏</a></li>
             </c:forEach>
             <li><a onclick="createProjectDialog()" class="nav-link">Create new project</a></li>
         </ul>
         <li><a href="/settings.jsp" class="nav-link">Settings</a></li>
     </ul>
+    <script>
+        function submitForm() {
+            document.getElementById("logoutForm").submit();
+        }
+    </script>
+
+    <div class="my_button">
+        <form id="logoutForm" action="/logout.jsp" method="post">
+            <input type="button" value="LOGOUT" onclick="submitForm()"/>
+        </form>
+    </div>
 </div>
 
 <script>
@@ -45,7 +58,7 @@
 
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Set the necessary Content-Type
         xhr.send(searchParams);
-        if(xhr.status===200 && xhr.responseText !== "-1"){
+        if (xhr.status === 200 && xhr.responseText !== "-1") {
             window.location.href = '/home.jsp';
         } else alert(":(");
 
@@ -72,7 +85,7 @@
 
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Set the necessary Content-Type
         xhr.send(searchParams);
-        if(xhr.status===200 && xhr.responseText !== "-1"){
+        if (xhr.status === 200 && xhr.responseText !== "-1") {
             window.location.href = '/project/' + xhr.responseText;
         } else alert(":(");
 
@@ -92,11 +105,6 @@
     }
 </script>
 
-<%--<script>--%>
-<%--    progressListArray = ["Work on Droppi project", "Listen to Spotify"];--%>
-<%--    completeListArray = ["Submit a PR", "Review my projects code"];--%>
-<%--    onHoldListArray = ["Get a girlfriend"];--%>
-<%--</script>--%>
 <div style="flex: 2">
     <div class="drag-container">
         <ul class="drag-list">
@@ -207,7 +215,7 @@
 
         let allTasks = [
             <c:forEach var="task" items="${project.getTasks()}">
-                new TodoTask(${task.getId()}, '${task.getTitle()}', '${task.getStatus()}'),
+            new TodoTask(${task.getId()}, '${task.getTitle()}', '${task.getStatus()}'),
             </c:forEach>
         ]
         let backlogListArray = [];
@@ -216,7 +224,7 @@
         let listArrays = [];
 
         function getSavedColumns() {
-            allTasks.forEach(function(todo){
+            allTasks.forEach(function (todo) {
                 switch (todo.status) {
                     case '0':
                         backlogListArray.push(todo);
@@ -233,6 +241,27 @@
 
     </script>
     <script src="/script.js"></script>
+    <h6>Enter recipient name:</h6>
+    <form action="/shareProject" method="post">
+        <input type="hidden" id="projectId" name="projectId" value="${project.getId()}">
+        <label for="recipientName">Enter recipient name:</label><br>
+        <input style="width: calc(20% - 20px);
+                    padding: 10px;
+                    margin-bottom: 15px;
+                    border: 1px solid #ccc;"
+               type="text" id="recipientName" name="recipientName"><br><br>
+        <input style="
+                color: white;
+                background-color: blueviolet;
+                width: calc(30% - 20px);
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 4px;"
+               type="submit" value="Share">
+    </form>
+
+
 </div>
 </body>
 </html>
